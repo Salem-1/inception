@@ -1,6 +1,6 @@
 # Bism Ellah Elrahman Eraheem
 
-# Simple Docker commands:
+# Simple Docker documentaiton:
 
 First clone the getting started repo 
 	
@@ -121,6 +121,48 @@ N.B:to know where your volume live on your local machine use this cmd:
 
 	docker volume inspect <volume name>
 
+#
+Using bind command:
+It allows you to share same storage in your local machine and image, in other words after choosing src and target path, what will be saved on src will be reflected on target and vice versa, Also you don't have to have all build tools and environments installed on your container
+To see this in action follow the following steps:
+1-cd to your app location
+2-Run the following cmd
 
+	docker run -it --mount type=bind,src="$(PWD)",target=/src ubuntu bash
 
+-i for interactive mode
+-t for tty, will create pseudo tty allow you to use it as terminal
+bash command to open the bash
+Now any change you make in the src dir will be reflect on your current path and vice versa
+#
+Running app in a development container:
+1-Make sure you stop your target container
+2-Go to your app dir
+3-Type this command in linux and mac
+
+	docker run -dp 3000:3000 \
+    -w /app --mount type=bind,src="$(pwd)",target=/app \
+    node:18-alpine \
+    sh -c "yarn install && yarn run dev"
+if you are using windows run this one
+
+	docker run -dp 3000:3000 `
+    -w /app --mount type=bind,src="$(pwd)",target=/app `
+    node:18-alpine `
+    sh -c "yarn install && yarn run dev"
+-d detached mode, run in the background as per my understanding
+-p port mapping, means will use port 3000 to access it
+-w working directory or current directory the command will run from
+node:18-alpine the image we are using for our container
+sh yarn install : alpine doesn't have bash, yarn install will install packages
+yarn run dev: will run in development server
+
+To make sure you are ready to run your server run the following cmd:
+	
+	docker logs -f <container-id>
+Now any change you make to your src code will be reflected automatically on your app running in the container
+
+After you are done stop your container and build new imgae using 
+
+	docker build -t getting-started .
 Ref:https://docs.docker.com/get-started/02_our_app/
