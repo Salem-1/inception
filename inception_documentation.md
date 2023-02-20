@@ -40,7 +40,6 @@ Level 9 8
 # Docker crash documentation:
 =======
 # Simple Docker documentaiton:
->>>>>>> 9dcdee7779223127b34f92577e21ad2b71559358
 
 First clone the getting started repo 
 	
