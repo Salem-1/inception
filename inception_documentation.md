@@ -1,17 +1,17 @@
 # Bism Ellah Elrahman Eraheem
 
 # Project specs:
-1-Project done in virtual machine
-2-All configuration files places in src folder
-3-Makefile in the root of my directory,
-4-Makefile setup the entire project using docker-compose.yml
-5-Setting up infrastructure with different services in vm and must use
-docker compose
-6-Each image has same name as corrosponding service
-7-Each service run in dedicated container
-8-Containers run in penultimate stable debian or alpine
-9-Write Dockerfile for each service then call it in docker-compose.yml
-10-Docker container contains NGINX with TLSv1.2 or TLSv1.3
+Let's setup nginx on debian:10 then test then configure it inshalla 
+18-Configure domain name to points to my local IP address
+19-The domain name must be ahsalem.42.fr
+22-NGINX only entrypoint via port 443 (using TLSv1.2 or 1.3 protocol)
+24-NGINX connects to wordpress php container with port 9000
+25-NGINX and wordpress php mount to wordpress volume
+
+10-Docker container contains NGINX with TLSv1.2 or TLSv1.3 (Done ssl_protocols TSLV1.3)
+
+
+
 11-Docker container with wordpress + php installed and configured without nginx
 12-Docker container with MariaDB without NGINX
 13-Volume contains wordpress database on the host machine in (/home/<login>/data) "I believe you will mount bind it to your volumes"
@@ -19,18 +19,25 @@ docker compose
 15-Docker network establish connection bettween containers (network line must be present in docker-compose file)
 16-Containers have to restart in case of crash
 17-Create two users for your database one of them admin with Ahmed_salem name 
-18-Configure domain name to points to my local IP address
-19-The domain name must be ahsalem.42.fr
 20-No password present in the docker files
 21-Use .env file to store env. virables, located at root of src dir (use -e .env)
-22-NGINX only entrypoint via port 443 (using TLSv1.2 or 1.3 protocol)
-24-NGINX connects to wordpress php container with port 9000
-25-NGINX and wordpress php mount to wordpress volume
 26-Wordpress container connect to DB container port 3306
 27-DB container mount to DB volume
+5-Setting up infrastructure with different services in vm and must use docker compose
+1-Project done in virtual machine
+-----------------------------------
+Done points:
+2-All configuration files places in src folder (Done)
+8-Containers run in penultimate stable debian or alpine (FROM alpine:10)(Done ) 
+3-Makefile in the root of my directory.(Done)
+6-Each image has same name as corrosponding service (Done)
+7-Each service run in dedicated container (Done)
+9-Write Dockerfile for each service then call it in docker-compose.yml (Done)
+4-Makefile setup the entire project using docker-compose.yml (DOne)
 # Notes:
 
-Level 9 8
+-What is TSLV1.3 and how it's different from .2
+-How test this prtocol
 -Read about how daemons work, PID, best practices for writing docker file
 -not allowed to use tail -f, network: host, --link, links, starting containers with infinite loops, entry point with bash, sleep, infinity, while True  (use wait opetion instead, illustrated down) or latest tag
 -Awesome compose repo for docker compse examples
