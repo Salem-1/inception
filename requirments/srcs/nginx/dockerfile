@@ -1,0 +1,10 @@
+FROM debian:10
+
+RUN apt update -y
+RUN apt upgrade-y
+RUN apt install nginx
+
+COPY nginx.conf  /somewehre/nginx/default.conf
+COPY index.html  /somewhere/nginx/html/.
+EXPOSE 443
+CMD ["/something/nginx start"]
