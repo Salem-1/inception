@@ -1,0 +1,30 @@
+FROM debian:10
+
+ARG MYSQL_ROOT_PASSWORD
+ARG MYSQL_PASSWORD
+ARG MYSQL_USER
+ARG MYSQL_DATABASE
+
+ENV MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+ENV MYSQL_PASSWORD=${MYSQL_PASSWORD}
+ENV MYSQL_USER=${MYSQL_USER}
+ENV MYSQL_DATABASE=${MYSQL_DATABASE}
+
+RUN apt-get update -y && apt-get upgrade -y
+RUN apt-get install -y mariadb-server
+RUN mkdir -p /var/run/mysql
+RUN chown -R mysql /var/run/mysql
+
+COPY ./tools/entry.sh /bin/.
+RUN chmod +x /bin/entry.sh
+ENTRYPOINT ["/bin/entry.sh"]
+# RUN  mysql -u root -e "CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE; \
+# ALTER USER 'root'@'localhost' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD'; \
+# CREATE USER $MYSQL_USER IDENTIFIED BY '$MYSQL_PASSWORD'; \
+# GRANT ALL PRIVILEGES ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD'; \
+# FLUSH PRIVILEGES;"
+
+EXPOSE 3306
+CMD ["sleep", "infinity"]
+
+# CMD ["mysqld"]

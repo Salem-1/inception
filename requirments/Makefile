@@ -15,6 +15,7 @@ up:
 down:
 	sudo docker compose $(LOCATION) stop
 	sudo docker compose $(LOCATION)	 down
+	sudo docker compose $(LOCATION) down --remove-orphans
 
 clean:
 	docker rm $(docker ps -a -q)
