@@ -372,3 +372,34 @@ After you are done stop your container and build new imgae using
 
 	docker build -t getting-started .
 Ref:https://docs.docker.com/get-started/02_our_app/
+
+to reload the server after changing the configuration
+nginx -s quit
+
+
+the logs of nginx available on 
+access.log
+or
+error.log
+in the following path 
+/usr/local/logs
+or
+/var/log/nginx
+
+
+TLS:transport layer security, usin cryptography protocol to provide communication security, run in the presentation layer, (layer 6)
+
+
+Best practcies:
+1-Package single app per container
+2-Properly handle the PID 1
+3- OPtimize docker layers(Optimize docker build cache)
+4-Remove unncessary tools, like nc if you are not using it.
+5-Use logs and profiling for debuging
+6-Avoid deploying the container with root or sudo previlage, instead lanch
+with --read only mode or --ReadOnlyFileSystem
+PID of the kernel:
+signal handler are not set automatically for this pid, you need to set it, and killing it using sigkill
+
+tinit :
+initialize your process with PID 1 customize for containers, with the appropriate signal handler

@@ -1,18 +1,25 @@
-all: build up
+
+LOCATION = -f ./srcs/docker_compose.yml
+all: run
+
+
+run:
+	sudo docker compose $(LOCATION) up --build
+# build up
 
 build:
-	srcs/docker compose build
+	sudo docker compose $(LOCATION) build
 up:
-	srcs/docker compose up
+	sudo docker compose $(LOCATION) up
 
 down:
-	srcs/docker compose down
+	sudo docker compose $(LOCATION)  down
 
-clean: down
+clean:
 	docker rm $(docker ps -a -q)
 
-fclean: clean
-	docker system prune -a
-	docker system prune -a --volumes
+prune: clean
+	sudo docker system prune -a
+	sudo docker system prune -a --volumes
 
-re :clean a
+re :down all
