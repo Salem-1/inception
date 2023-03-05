@@ -403,3 +403,18 @@ signal handler are not set automatically for this pid, you need to set it, and k
 
 tinit :
 initialize your process with PID 1 customize for containers, with the appropriate signal handler
+
+
+#ref  : thanks to Mohamed Ashraf GItHub: winash1618
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/mkaruvan.42.fr.key -out /etc/ssl/certs/mkaruvan.42.fr.crt -subj "/C=AD/ST=AbuDhabi/L=Mina/O=42AbuDhabi/CN=mkaruvan.42.fr"
+
+#Chat-GPT explaination
+openssl: The OpenSSL command-line tool.
+req: The OpenSSL subcommand for generating certificate requests and self-signed certificates.
+-x509: A flag that tells OpenSSL to generate a self-signed certificate instead of a certificate request.
+-nodes: A flag that tells OpenSSL not to encrypt the private key with a passphrase.
+-days 365: The number of days the certificate will be valid for.
+-newkey rsa:2048: Generate a new RSA key pair with a length of 2048 bits.
+-keyout /etc/ssl/private/mkaruvan.42.fr.key: The file path and name for the private key.
+-out /etc/ssl/certs/mkaruvan.42.fr.crt: The file path and name for the self-signed SSL certificate.
+-subj "/C=AD/ST=AbuDhabi/L=Mina/O=42AbuDhabi/CN=mkaruvan.42.fr": The subject information for the certificate, including the country code, state or province, locality, organization, and common name.
