@@ -16,15 +16,11 @@ RUN mkdir -p /var/run/mysql
 RUN chown -R mysql /var/run/mysql
 
 COPY ./tools/entry.sh /bin/.
+COPY conf/mysql.conf /etc/mysql/mariadb.conf.d/50-server.cnf
+RUN chmod +x /etc/mysql/mariadb.conf.d/50-server.cnf
 RUN chmod +x /bin/entry.sh
-ENTRYPOINT ["/bin/entry.sh"]
-# RUN  mysql -u root -e "CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE; \
-# ALTER USER 'root'@'localhost' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD'; \
-# CREATE USER $MYSQL_USER IDENTIFIED BY '$MYSQL_PASSWORD'; \
-# GRANT ALL PRIVILEGES ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD'; \
-# FLUSH PRIVILEGES;"
 
 EXPOSE 3306
-CMD ["sleep", "infinity"]
 
-# CMD ["mysqld"]
+
+CMD ["/bin/entry.sh"]

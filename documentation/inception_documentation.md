@@ -18,7 +18,7 @@ Let's setup nginx on debian:10 then test then configure it inshalla
 14-Another volume contains website files on the host machine
 15-Docker network establish connection bettween containers (network line must be present in docker-compose file)
 16-Containers have to restart in case of crash
-17-Create two users for your database one of them admin with Ahmed_salem name 
+17-Create two users for your database one of them admin with Ahmed_salem name
 20-No password present in the docker files
 21-Use .env file to store env. virables, located at root of src dir (use -e .env)
 26-Wordpress container connect to DB container port 3306

@@ -18,3 +18,16 @@ services:
       - .env
     ports:
       - "3306:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    networks:
+      - word_press_network
+volumes:
+  mariadb_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/login/data/mariadb_data
+      o: bind
+networks:
+  word_press_network:
