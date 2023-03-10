@@ -7,7 +7,7 @@ run: build up
 # build up
 
 build:
-	sudo docker compose --env-file ./srcs/.env $(LOCATION)   build
+	sudo docker compose --env-file ./srcs/.env $(LOCATION)  build
 up:
 	sudo docker compose --env-file ./srcs/.env  $(LOCATION) up 
 
@@ -16,6 +16,8 @@ down:
 	sudo docker compose $(LOCATION)	 down
 	sudo docker compose $(LOCATION) down --remove-orphans
 
+logs:
+	
 clean: down prune 
 	docker rm $(docker ps -a -q)
 

@@ -8,20 +8,36 @@ services:
   #   container_name: nginx
   #   ports:
   #     - "443:443"
+  #add the restart option if it fails
+    # volumes:
+    #   - wordpress_data:/var/lib/mysql
+    # networks:
+    #   - word_press_network
   mariadb:
     build:
       context: srcs/requirments/mariadb
+      args:
+        MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+        MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+        MYSQL_USER: ${MYSQL_USER}
+        MYSQL_DATABASE: ${MYSQL_DATABASE}
     image: mariadb
     init: true
     container_name: mariadb
     env_file:
       - .env
-    ports:
-      - "3306:3306"
+    # ports:
+    #   - "3306:3306"
     volumes:
       - mariadb_data:/var/lib/mysql
     networks:
       - word_press_network
+      #THis will protect anyting else to connect to mariadb
+      #till wordpress ready
+      # healthcheck:
+      # #modify this command below
+      #  test: ["CMD", "mysqladmin", "ping", "sample command"]
+      # timeout: 5s
 volumes:
   mariadb_data:
     driver: local
@@ -29,5 +45,11 @@ volumes:
       type: none
       device: /home/login/data/mariadb_data
       o: bind
+  # wrodpress_data:
+  #   driver: local
+  #   driver_opts:
+  #     type: none
+  #     device: /home/login/data/wrodpress_data
+  #     o: bind
 networks:
   word_press_network:
