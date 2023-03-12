@@ -8,11 +8,12 @@ services:
   #   container_name: nginx
   #   ports:
   #     - "443:443"
-  #add the restart option if it fails
-    # volumes:
-    #   - wordpress_data:/var/lib/mysql
-    # networks:
-    #   - word_press_network
+  #   volumes:
+  #     - WordPress:/var/www/html
+  #   networks:
+  #     - word_press_network
+  #   restart: on-failure
+
   mariadb:
     build:
       context: srcs/requirments/mariadb
@@ -21,35 +22,64 @@ services:
         MYSQL_PASSWORD: ${MYSQL_PASSWORD}
         MYSQL_USER: ${MYSQL_USER}
         MYSQL_DATABASE: ${MYSQL_DATABASE}
-    image: mariadb
-    init: true
-    container_name: mariadb
+        ADMIN: ${ADMIN}
+        ADMIN_PASSWORD: ${ADMIN_PASSWORD}
     env_file:
       - .env
+    image: mariadb
+    init: true
     # ports:
     #   - "3306:3306"
+    container_name: mariadb
     volumes:
-      - mariadb_data:/var/lib/mysql
+      - /home/ahsalem/data/DB:/var/lib/mysql
     networks:
       - word_press_network
+    restart: on-failure
+  # wordpress:
+  #   build:
+  #     context: srcs/requirments/wordpress/.
+  #     args:
+  #       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+  #       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+  #       MYSQL_USER: ${MYSQL_USER}
+  #       MYSQL_DATABASE: ${MYSQL_DATABASE}
+  #       ADMIN: ${ADMIN}
+  #       ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+  #   env_file:
+  #     - .env
+  #   image: wordpress
+  #   init: true
+  #   container_name: wordpress
+  #   volumes:
+  #     - /home/ahsalem/data/wordpress:/var/www/html/.
+  #   networks:
+  #     - word_press_network
+  #   restart: on-failure
+
+volumes:
+  DB:
+    driver: local
+    driver_opts:
+      type: bind
+      source: /home/ahsalem/data/DB
+      target: /var/lib/mysql
+  WordPress:
+    driver: local
+    driver_opts:
+      type: bind
+      source: /home/ahsalem/data/wordpress
+      target: /var/www/html
+
+networks: 
+  word_press_network:
+
+
+
+
       #THis will protect anyting else to connect to mariadb
       #till wordpress ready
       # healthcheck:
       # #modify this command below
       #  test: ["CMD", "mysqladmin", "ping", "sample command"]
-      # timeout: 5s
-volumes:
-  mariadb_data:
-    driver: local
-    driver_opts:
-      type: none
-      device: /home/login/data/mariadb_data
-      o: bind
-  # wrodpress_data:
-  #   driver: local
-  #   driver_opts:
-  #     type: none
-  #     device: /home/login/data/wrodpress_data
-  #     o: bind
-networks:
-  word_press_network:
+        #  timeout: 5s

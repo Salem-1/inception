@@ -418,3 +418,26 @@ req: The OpenSSL subcommand for generating certificate requests and self-signed 
 -keyout /etc/ssl/private/mkaruvan.42.fr.key: The file path and name for the private key.
 -out /etc/ssl/certs/mkaruvan.42.fr.crt: The file path and name for the self-signed SSL certificate.
 -subj "/C=AD/ST=AbuDhabi/L=Mina/O=42AbuDhabi/CN=mkaruvan.42.fr": The subject information for the certificate, including the country code, state or province, locality, organization, and common name.
+
+
+The command 
+
+		sudo apt install php-fpm php-mysql php-xml php-gd php-curl php-mbstring php-zip 
+
+installs PHP and some commonly used extensions for web development. Here's what each package provides:
+
+php-fpm: FastCGI Process Manager for PHP, which enables PHP to run as a service and handle requests from a web server like Nginx.
+
+php-mysql: MySQL database driver for PHP, which enables PHP to communicate with a MySQL/MariaDB database.
+
+php-xml: PHP extension for working with XML data.
+
+php-gd: PHP extension for working with images, including creating and manipulating images.
+
+php-curl: PHP extension for working with URLs and making HTTP requests.
+
+php-mbstring: PHP extension for working with multibyte strings, which is important for handling text in languages that use non-ASCII characters.
+
+php-zip: PHP extension for working with ZIP archives.
+
+By installing these packages, you'll have a basic PHP setup that's suitable for most web development tasks.

@@ -7,9 +7,9 @@ run: build up
 # build up
 
 build:
-	sudo docker compose --env-file ./srcs/.env $(LOCATION)  build
+	sudo docker compose --env-file ./srcs/.env $(LOCATION)   build 
 up:
-	sudo docker compose --env-file ./srcs/.env  $(LOCATION) up 
+	sudo docker compose --env-file ./srcs/.env  $(LOCATION)  up 
 
 down:
 	sudo docker compose $(LOCATION) stop
@@ -24,5 +24,7 @@ clean: down prune
 prune: 
 	docker system prune -a 
 	docker system prune -a --volumes 
+rv:
+	docker volume prune --force
 
 re :down all
