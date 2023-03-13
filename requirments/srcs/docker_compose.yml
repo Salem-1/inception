@@ -1,41 +1,40 @@
 version: '3'
 services:
-  # nginx:
-  #   build:
-  #     context: srcs/requirments/nginx
-  #   image: nginx
-  #   init: true 
-  #   container_name: nginx
-  #   ports:
-  #     - "443:443"
-  #   volumes:
-  #     - WordPress:/var/www/html
-  #   networks:
-  #     - word_press_network
-  #   restart: on-failure
-
-  mariadb:
+  nginx:
     build:
-      context: srcs/requirments/mariadb
-      args:
-        MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-        MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-        MYSQL_USER: ${MYSQL_USER}
-        MYSQL_DATABASE: ${MYSQL_DATABASE}
-        ADMIN: ${ADMIN}
-        ADMIN_PASSWORD: ${ADMIN_PASSWORD}
-    env_file:
-      - .env
-    image: mariadb
-    init: true
-    # ports:
-    #   - "3306:3306"
-    container_name: mariadb
+      context: srcs/requirments/nginx
+    image: nginx
+    init: true 
+    container_name: nginx
+    ports:
+      - "443:443"
     volumes:
-      - /home/ahsalem/data/DB:/var/lib/mysql
+      - /home/ahsalem/data/wordress:/var/www/html
     networks:
       - word_press_network
     restart: on-failure
+#---------------------------------------------------------------------
+  # mariadb:
+  #   build:
+  #     context: srcs/requirments/mariadb
+  #     args:
+  #       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+  #       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+  #       MYSQL_USER: ${MYSQL_USER}
+  #       MYSQL_DATABASE: ${MYSQL_DATABASE}
+  #       ADMIN: ${ADMIN}
+  #       ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+  #   env_file:
+  #     - .env
+  #   image: mariadb
+  #   init: true
+  #   container_name: mariadb
+  #   volumes:
+  #     - /home/ahsalem/data/DB:/var/lib/mysql
+  #   networks:
+  #     - word_press_network
+  #   restart: on-failure
+#-----------------------------------------------------------------------------
   # wordpress:
   #   build:
   #     context: srcs/requirments/wordpress/.
@@ -52,11 +51,12 @@ services:
   #   init: true
   #   container_name: wordpress
   #   volumes:
-  #     - /home/ahsalem/data/wordpress:/var/www/html/.
+  #     - /home/ahsalem/data/wordress:/var/www/html/.
   #   networks:
   #     - word_press_network
   #   restart: on-failure
 
+    #-----------------------------------------------------------------
 volumes:
   DB:
     driver: local

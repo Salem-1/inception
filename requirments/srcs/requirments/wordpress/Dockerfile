@@ -1,4 +1,4 @@
-FROM debian:10
+FROM debian:buster
 
 
 ARG MYSQL_ROOT_PASSWORD
@@ -12,8 +12,8 @@ RUN apt-get install -y wget
 RUN apt install curl -y
 
 #php version is 7.3
-RUN apt-get install php-fpm php-mysql -y
 RUN mkdir -p /var/www/html
+RUN apt-get install php-fpm php-mysql -y
 VOLUME /var/www/html
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
 	&& chmod +x wp-cli.phar && php wp-cli.phar --info \

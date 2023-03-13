@@ -1,11 +1,13 @@
 
 LOCATION = -f ./srcs/docker_compose.yml
-all: run
+all: vol run
 
 
 run: build up
 # build up
-
+vols:
+	mkdir -p /home/${USER}/data/DB
+	mkdir -p /home/${USER}/data/wordpress
 build:
 	sudo docker compose --env-file ./srcs/.env $(LOCATION)   build 
 up:
@@ -24,6 +26,10 @@ clean: down prune
 prune: 
 	docker system prune -a 
 	docker system prune -a --volumes 
+
+clean_vol:
+	sudo rm -rf /home/${USER}/data/DB
+	sudo rm -rf /home/${USER}/data/wordpress
 rv:
 	docker volume prune --force
 

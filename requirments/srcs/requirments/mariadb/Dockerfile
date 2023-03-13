@@ -14,26 +14,39 @@ ARG ADMIN_PASSWORD
 
 EXPOSE 3306
 RUN apt-get update -y 
-RUN apt-get upgrade -y 
-RUN apt-get install  mariadb-server -y
-CMD ["/bin/entry.sh"]
-# RUN mkdir -p /var/run/mysql
-# RUN chown -R mysql:mysql /var/run/mysql
-RUN service mysql start
-# RUN service mysql  start && mysql -u root -e "CREATE DATABASE IF NOT EXISTS ${MYSQL_DATABASE};\
-# GRANT ALL PRIVILEGES ON ${MYSQL_DATABASE}.* TO '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';\
-# FLUSH PRIVILEGES;"
+# RUN apt-get upgrade -y 
+RUN apt-get install  mariadb-server mariadb-client -y 
 
-COPY ./tools/entry.sh /bin/.
-COPY conf/mysql.conf /etc/mysql/mariadb.conf.d/50-server.cnf
-RUN chmod +x /etc/mysql/mariadb.conf.d/50-server.cnf
-RUN chmod +x /bin/entry.sh
-COPY conf/my.conf /etc/mysql/my.conf
+#COPY conf/init.sql /docker-entrypoint-initdb.d/
+# COPY ./tools/entry.sh /bin/.
+# RUN chmod +x /bin/entry.sh
+
+# COPY conf/mysql.conf /etc/mysql/mariadb.conf.d/50-server.cnf
+# COPY conf/my.conf /etc/mysql/my.conf
+RUN mkdir -p /var/run/mysqld
+RUN chmod 777 /var/run/mysqld
+COPY ./conf/docker.conf etc/my.conf.d/docker.conf
+COPY ./ conf/mariadb-server.conf etc/my.conf.d/mairadb-server.conf
+RUN mysql_install_db --user=mysql --datadir=/var/lib/mysql
+RUN touch /run/mysqld/mysqld.soc
+RUN chown mysql:mysql /run/mysqld/mysqld.soc
+COPY tools/entry.sh .
+RUN  chmod +x entry.sh 
+RUN ./entry.sh 
+CMD ["/usr/bin/mysqld_safe", "--bind-address=0.0.0.0 "]
+
+
+# RUN service mysql start
+
+# # RUN service mysql  start && mysql -u root -e "CREATE DATABASE IF NOT EXISTS ${MYSQL_DATABASE};\
+# # GRANT ALL PRIVILEGES ON ${MYSQL_DATABASE}.* TO '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';\
+# # FLUSH PRIVILEGES;"
+
+# RUN chmod +x /etc/mysql/mariadb.conf.d/50-server.cnf
 # RUN mysql -u root -e "CREATE DATABASE IF NOT EXISTS ${MYSQL_DATABASE};"
 # RUN mysql -u root -p$MYSQL_ROOT_PASSWORD  -e "GRANT ALL PRIVILEGES ON ${MYSQL_DATABASE}.* TO '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';"
-# # mysql GRANT ALL PRIVILEGES ON ${MYSQL_DATABASE}.* TO '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}'; \
+#  mysql GRANT ALL PRIVILEGES ON ${MYSQL_DATABASE}.* TO '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}'; \
 # RUN mysql -u root -p$MYSQL_ROOT_PASSWORD  -e "FLUSH PRIVILEGES;" 
 # # ALTER USER 'root'@'localhost' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}'; \
 # # 	FLUSH PRIVILEGES;"
-# RUN service mysql start
 
