@@ -9,7 +9,7 @@ services:
     ports:
       - "443:443"
     volumes:
-      - /home/ahsalem/data/wordress:/var/www/html
+      - WordPress:/usr/share/nginx/html/
     networks:
       - word_press_network
     restart: on-failure
@@ -30,7 +30,7 @@ services:
   #   init: true
   #   container_name: mariadb
   #   volumes:
-  #     - /home/ahsalem/data/DB:/var/lib/mysql
+  #     - DB:/var/lib/mysql
   #   networks:
   #     - word_press_network
   #   restart: on-failure
@@ -51,7 +51,7 @@ services:
   #   init: true
   #   container_name: wordpress
   #   volumes:
-  #     - /home/ahsalem/data/wordress:/var/www/html/.
+  #     - WordPress:/var/www/html/.
   #   networks:
   #     - word_press_network
   #   restart: on-failure
@@ -60,16 +60,19 @@ services:
 volumes:
   DB:
     driver: local
+    name: DB
     driver_opts:
       type: bind
-      source: /home/ahsalem/data/DB
-      target: /var/lib/mysql
+      o: bind
+      device: /home/ahsalem/data/DB
+    
   WordPress:
     driver: local
+    name: WordPress
     driver_opts:
       type: bind
-      source: /home/ahsalem/data/wordpress
-      target: /var/www/html
+      o: bind
+      device: /home/ahsalem/data/wordpress/
 
 networks: 
   word_press_network:

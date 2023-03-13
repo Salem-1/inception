@@ -1,6 +1,6 @@
 
 LOCATION = -f ./srcs/docker_compose.yml
-all: vol run
+all: vols run
 
 
 run: build up
