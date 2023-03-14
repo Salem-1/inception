@@ -17,19 +17,23 @@ down:
 	sudo docker compose $(LOCATION) stop
 	sudo docker compose $(LOCATION)	 down
 	sudo docker compose $(LOCATION) down --remove-orphans
+	sudo docker compose $(LOCATION) down --volumes --remove-orphans
 
 logs:
 	
 clean: down prune 
 	docker rm $(docker ps -a -q)
 
-prune: 
-	docker system prune -a 
-	docker system prune -a --volumes 
+prune: down
+	sudo docker system prune -a 
+	sudo docker system prune -a --volumes 
+	sudo docker system prune
 
 clean_vol:
+	sudo chmod 777 /home/${USER}/data/wordpress/*
 	sudo rm -rf /home/${USER}/data/DB
 	sudo rm -rf /home/${USER}/data/wordpress
+
 rv:
 	docker volume prune --force
 

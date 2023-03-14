@@ -33,7 +33,8 @@ RUN chown mysql:mysql /run/mysqld/mysqld.soc
 COPY tools/entry.sh .
 RUN  chmod +x entry.sh 
 RUN ./entry.sh 
-CMD ["/usr/bin/mysqld_safe", "--bind-address=0.0.0.0 "]
+# CMD ["sleep", "infinity"]
+CMD ["/usr/bin/mysqld_safe", "--bind-address=0.0.0.0"]
 
 
 # RUN service mysql start

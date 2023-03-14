@@ -9,54 +9,59 @@ services:
     ports:
       - "443:443"
     volumes:
-      - WordPress:/usr/share/nginx/html/
+      - WordPress:/var/www/html
+    depends_on:
+      - wordpress
     networks:
       - word_press_network
-    restart: on-failure
-#---------------------------------------------------------------------
-  # mariadb:
-  #   build:
-  #     context: srcs/requirments/mariadb
-  #     args:
-  #       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-  #       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-  #       MYSQL_USER: ${MYSQL_USER}
-  #       MYSQL_DATABASE: ${MYSQL_DATABASE}
-  #       ADMIN: ${ADMIN}
-  #       ADMIN_PASSWORD: ${ADMIN_PASSWORD}
-  #   env_file:
-  #     - .env
-  #   image: mariadb
-  #   init: true
-  #   container_name: mariadb
-  #   volumes:
-  #     - DB:/var/lib/mysql
-  #   networks:
-  #     - word_press_network
-  #   restart: on-failure
+    restart: always
+
 #-----------------------------------------------------------------------------
-  # wordpress:
-  #   build:
-  #     context: srcs/requirments/wordpress/.
-  #     args:
-  #       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-  #       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-  #       MYSQL_USER: ${MYSQL_USER}
-  #       MYSQL_DATABASE: ${MYSQL_DATABASE}
-  #       ADMIN: ${ADMIN}
-  #       ADMIN_PASSWORD: ${ADMIN_PASSWORD}
-  #   env_file:
-  #     - .env
-  #   image: wordpress
-  #   init: true
-  #   container_name: wordpress
-  #   volumes:
-  #     - WordPress:/var/www/html/.
-  #   networks:
-  #     - word_press_network
-  #   restart: on-failure
+  wordpress:
+    build:
+      context: srcs/requirments/wordpress/.
+      args:
+        MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+        MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+        MYSQL_USER: ${MYSQL_USER}
+        MYSQL_DATABASE: ${MYSQL_DATABASE}
+        ADMIN: ${ADMIN}
+        ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+    env_file:
+      - .env
+    image: wordpress
+    init: true
+    container_name: wordpress
+    volumes:
+      - WordPress:/var/www/html
+    depends_on:
+      - mariadb
+    networks:
+      - word_press_network
+    restart: always
 
     #-----------------------------------------------------------------
+# #---------------------------------------------------------------------
+  mariadb:
+    build:
+      context: srcs/requirments/mariadb
+      args:
+        MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+        MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+        MYSQL_USER: ${MYSQL_USER}
+        MYSQL_DATABASE: ${MYSQL_DATABASE}
+        ADMIN: ${ADMIN}
+        ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+    env_file:
+      - .env
+    image: mariadb
+    init: true
+    container_name: mariadb
+    volumes:
+      - DB:/var/lib/mysql
+    networks:
+      - word_press_network
+    restart: always
 volumes:
   DB:
     driver: local

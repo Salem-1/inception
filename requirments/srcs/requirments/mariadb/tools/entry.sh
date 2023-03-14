@@ -16,6 +16,18 @@ GRANT USAGE ON *.* to 'root'@'%' identified by 'MYSQL_ROOT_PASSWORD' with grant 
 ALTER USER 'root'@'localhost' IDENTIFIED BY '$MYSQL_ROOT_PASSWORD';
 FLUSH PRIVILEGES;"
 
+LOG_FILE=/var/log/mysql/mysql.log
+ERR_FILE=/var/log/mysql/error.log
+LOG_LINK=/dev/stdout
+ERR_LINK=/dev/stderr
+
+# Remove the MySQL log and error files
+rm $LOG_FILE
+rm $ERR_FILE
+
+# Create symbolic links to stdout and stderr for the log file
+ln -s $LOG_LINK $LOG_FILE
+ln -s $ERR_LINK $ERR_FILE
 
 #installing ps for debugging purpose
 # apt-get install procps -y
