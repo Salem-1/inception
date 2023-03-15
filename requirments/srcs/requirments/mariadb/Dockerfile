@@ -25,17 +25,19 @@ RUN apt-get install  mariadb-server mariadb-client -y
 # COPY conf/my.conf /etc/mysql/my.conf
 RUN mkdir -p /var/run/mysqld
 RUN chmod 777 /var/run/mysqld
-COPY ./conf/docker.conf etc/my.conf.d/docker.conf
-COPY ./ conf/mariadb-server.conf etc/my.conf.d/mairadb-server.conf
+# COPY ./conf/docker.conf etc/my.conf.d/docker.conf
+# COPY ./conf/mariadb-server.conf etc/my.conf.d/mairadb-server.cnf
+COPY ./conf/mysql.conf  /etc/mysql/mariadb.conf.d/50-server.cnf
 RUN mysql_install_db --user=mysql --datadir=/var/lib/mysql
 RUN touch /run/mysqld/mysqld.soc
 RUN chown mysql:mysql /run/mysqld/mysqld.soc
 COPY tools/entry.sh .
 RUN  chmod +x entry.sh 
 RUN ./entry.sh 
-# CMD ["sleep", "infinity"]
-CMD ["/usr/bin/mysqld_safe", "--bind-address=0.0.0.0"]
 
+# CMD ["sleep", "infinity"]
+CMD ["mysqld", "--bind-address=0.0.0.0"]
+# /usr/bin/mysqld_safe --bind-address=0.0.0.0
 
 # RUN service mysql start
 
