@@ -1,5 +1,5 @@
 
-LOCATION = -f ./srcs/docker_compose.yml
+LOCATION = -f ./srcs/docker-compose.yml
 all: vols run
 
 
@@ -30,6 +30,7 @@ prune: down
 	sudo docker system prune
 
 clean_vol:
+	sudo chmod 777 /home/${USER}/data/wordpress
 	sudo chmod 777 /home/${USER}/data/wordpress/*
 	sudo rm -rf /home/${USER}/data/DB
 	sudo rm -rf /home/${USER}/data/wordpress

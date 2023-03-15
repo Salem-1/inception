@@ -27,6 +27,12 @@ services:
         MYSQL_DATABASE: ${MYSQL_DATABASE}
         ADMIN: ${ADMIN}
         ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+        WP_USER: ${WP_USER}
+        WP_PASSWORD: ${WP_PASSWORD}
+        WP_EMAIL: ${WP_EMAIL}
+        DESCRIPTION: ${DESCRIPTION}
+        TITLE: ${TITLE}
+        DOMAIN: ${DOMAIN}
     env_file:
       - .env
     image: wordpress
@@ -41,7 +47,6 @@ services:
     restart: always
 
     #-----------------------------------------------------------------
-# #---------------------------------------------------------------------
   mariadb:
     build:
       context: srcs/requirments/mariadb
@@ -62,6 +67,7 @@ services:
     networks:
       - word_press_network
     restart: always
+# #---------------------------------------------------------------------
 volumes:
   DB:
     driver: local

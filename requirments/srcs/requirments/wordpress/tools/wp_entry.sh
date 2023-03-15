@@ -14,5 +14,22 @@ mv /var/www/html/wordpress/* /var/www/html/.
 # wp --allow-root core download --path=/var/www/html/wordpress
 # sleep infinity
 mkdir /run/php
+cd /var/www/html
+wp --allow-root --path=/var/www/html core install --url=$DOMAIN --title="$TITLE" \
+	--admin_user=$ADMIN --admin_password=$ADMIN_PASSWORD --admin_email=$WP_EMAIL
+wp --allow-root --path=/var/www/html option update blogname "$TITLE"
+wp --allow-root --path=/var/www/html option update blogdescription "$DESCRIPTION"
+wp --allow-root --path=/var/www/html option update blog_public 0
 # sleep infinity
+# set title 
+# useranem 
+# password 
+# your email 
+# search engine visibility 
+# install wordpress 
+# login username and password with remember me
+# go to the main page not the dashboard
 php-fpm7.3 -F
+
+
+
