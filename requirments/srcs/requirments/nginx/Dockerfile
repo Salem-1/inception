@@ -7,4 +7,4 @@ RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/a
 /etc/nginx/ssl/ahsalem.42.fr.crt -subj "/C=AD/ST=AbuDhabi/L=Mina/O=42AbuDhabi/CN=ahsalem.42.fr"
 COPY conf/nginx.conf 	/etc/nginx/conf.d/default.conf
 EXPOSE 443
-CMD ["nginx", "-g", " daemon off;"]
+CMD ["nginx", "-g", " daemon off;"]x
